@@ -1,0 +1,651 @@
+/* 智能述职Agent系统 - 样式文件 */
+:root {
+    --primary: #3a6ea5;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+    color: #333;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* 导航栏样式 */
+.navbar {
+    background: linear-gradient(135deg, var(--primary), #2c5282);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 1rem;
+}
+
+/* API配置按钮状态样式 */
+.navbar .nav-link.text-warning {
+    color: #ffc107 !important;
+    font-weight: 500;
+}
+
+.navbar .nav-link.text-success {
+    color: #28a745 !important;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+/* 文件上传区域样式 */
+.upload-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f9fafc;
+    transition: all 0.3s;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background-color: #edf2f7;
+}
+
+.upload-area.border-primary {
+    border-color: var(--primary);
+    border-style: dashed;
+    background-color: rgba(58, 110, 165, 0.05);
+}
+
+/* 不一致项目样式 */
+.inconsistency {
+    background-color: #ffe6e6;
+    border-left: 4px solid var(--danger);
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+/* 雷达图容器样式 */
+.radar-chart-container {
+    max-width: 400px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+/* 能力分数条样式 */
+.ability-score {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.score-bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+    margin: 0 1rem;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+}
+
+/* API配置卡片样式 */
+.api-config-card {
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.api-config-card .card-header {
+    background: linear-gradient(135deg, var(--primary), #2c5282);
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+.api-config-card .card-body {
+    padding: 1.5rem;
+}
+
+.api-config-card .badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.api-config-card .input-group {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.api-config-card .form-control {
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+}
+
+.api-config-card .btn-outline-secondary {
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    background-color: #f8f9fa;
+}
+
+.api-config-card .btn-outline-secondary:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.api-config-card .alert {
+    border-radius: 8px;
+    border: none;
+}
+
+/* 页面内容样式 */
+.page-content {
+    display: none;
+    padding: 1.5rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.page-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 分析卡片样式 */
+.cohort-card, .analysis-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    height: 100%;
+}
+
+/* 依据块样式 */
+.evidence-block {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--info);
+}
+
+/* 建议框样式 */
+.suggestion-box {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--primary);
+}
+
+.suggestions-container {
+    margin-top: 1rem;
+}
+
+.suggestions-container h5 {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    margin-top: 1.2rem;
+}
+
+.suggestions-container h5:first-child {
+    margin-top: 0;
+}
+
+.suggestions-container ul {
+    margin-bottom: 1rem;
+    padding-left: 1.2rem;
+}
+
+.suggestions-container li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+/* 入口卡片样式 */
+.entrance-card {
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.entrance-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.entrance-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.entrance-card i {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.entrance-card h3 {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.judge-entrance {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.bp-entrance {
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    color: white;
+}
+
+.staff-entrance {
+    background: linear-gradient(135deg, #3a6ea5, #2c5282);
+    color: white;
+}
+
+/* 诊断部分样式 */
+.diagnosis-section {
+    margin-bottom: 2rem;
+}
+
+.diagnosis-section h4 {
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 按钮样式 */
+.btn-entrance {
+    margin: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 2;
+}
+
+.btn-entrance:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-judge {
+    background: rgba(255, 255, 255, 0.95);
+    color: #28a745;
+}
+
+.btn-bp {
+    background: rgba(255, 255, 255, 0.95);
+    color: #ff9800;
+}
+
+.btn-staff {
+    background: rgba(255, 255, 255, 0.95);
+    color: #3a6ea5;
+}
+
+.home-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 页面标题样式 */
+.page-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+/* 仪表板头部样式 */
+.dashboard-header {
+    text-align: center;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.dashboard-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 入口容器样式 */
+.entrance-container {
+    padding: 0 2rem;
+}
+
+.entrance-row {
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+/* 浮动形状样式 */
+.floating-shape {
+    position: absolute;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.shape-1 {
+    top: -20px;
+    right: -20px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: white;
+}
+
+.shape-2 {
+    bottom: -30px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    background: white;
+    transform: rotate(45deg);
+}
+
+/* 页脚样式 */
+.footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Toast通知样式 */
+.toast {
+    z-index: 1100;
+}
+
+/* 加载中动画 */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* 卡片加载动画 */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+.loading-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.loading-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    margin: 0 3px;
+    animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.loading-dot:nth-child(3) { animation-delay: 0s; }
+
+.loading-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.loading-progress {
+    width: 200px;
+    height: 4px;
+    background-color: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--info));
+    border-radius: 2px;
+    animation: progress 2s ease-in-out infinite;
+}
+
+/* 动画关键帧 */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+@keyframes progress {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 脉冲动画 */
+.pulse-animation {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 语音转文本功能样式 */
+.upload-area.drag-over {
+    border-color: var(--success);
+    background-color: rgba(40, 167, 69, 0.1);
+    transform: scale(1.02);
+}
+
+.upload-area .fa-cloud-upload-alt {
+    color: #6c757d;
+    transition: color 0.3s;
+}
+
+.upload-area:hover .fa-cloud-upload-alt,
+.upload-area.drag-over .fa-cloud-upload-alt {
+    color: var(--primary);
+}
+
+#transcriptionText {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+}
+
+.progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    0% {
+        background-position: 1rem 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* 语音转文本页面特定样式 */
+#speech-to-text .card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+#speech-to-text .card:hover {
+    transform: translateY(-2px);
+}
+
+#speech-to-text .card-header {
+    background: linear-gradient(135deg, var(--primary), #2c5282);
+    color: white;
+    border-bottom: none;
+    font-weight: 600;
+}
+
+#speech-to-text .alert-info {
+    border-left: 4px solid var(--info);
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+#speech-to-text .list-unstyled li {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+#speech-to-text .list-unstyled li:last-child {
+    border-bottom: none;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .entrance-card {
+        height: 220px;
+        margin-bottom: 1rem;
+    }
+    
+    .radar-chart-container {
+        height: 250px;
+    }
+    
+    .dashboard-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .dashboard-header p {
+        font-size: 1rem;
+    }
+    
+    .home-button {
+        top: 0.5rem;
+        left: 0.5rem;
+    }
+    
+    #speech-to-text .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    
+    #speech-to-text .upload-area {
+        padding: 1.5rem;
+    }
+    
+    #transcriptionText {
+        min-height: 200px;
+    }
+}

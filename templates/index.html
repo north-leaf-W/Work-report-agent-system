@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能述职Agent系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" data-page="dashboard">
+                <i class="fas fa-robot me-2"></i>
+                <span>智能述职Agent系统</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="apiConfigBtn" data-bs-toggle="modal" data-bs-target="#apiConfigModal">
+                            <i class="fas fa-key"></i> API配置
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> 管理员</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid p-0">
+        <!-- 仪表板/首页 -->
+        <div id="dashboard" class="page-content active">
+            <div class="dashboard-header">
+                <h1>智能述职Agent系统</h1>
+                <p>高效、精准的述职评估与管理平台</p>
+            </div>
+
+
+
+            <div class="entrance-container">
+                <!-- 第一行：述职人入口和BP入口 -->
+                <div class="row entrance-row">
+                    <!-- 述职人入口 -->
+                    <div class="col-md-5 mb-4">
+                        <div class="card entrance-card staff-entrance">
+                            <div class="floating-shape shape-1"></div>
+                            <div class="floating-shape shape-2"></div>
+                            <i class="fas fa-user-tie"></i>
+                            <h3>述职人入口</h3>
+                            <div class="mt-3">
+                                <button class="btn btn-entrance btn-staff" data-page="verification">
+                                    <i class="fas fa-check-double me-2"></i> PDF校对工具
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <div class="text-center text-muted">
+                            <i class="fas fa-arrows-alt-h fa-2x mb-2"></i>
+                            <p>选择入口</p>
+                        </div>
+                    </div>
+                    
+                    <!-- BP入口 -->
+                    <div class="col-md-5 mb-4">
+                        <div class="card entrance-card bp-entrance">
+                            <div class="floating-shape shape-1"></div>
+                            <div class="floating-shape shape-2"></div>
+                            <i class="fas fa-users"></i>
+                            <h3>BP入口</h3>
+                            <div class="mt-3">
+                                <button class="btn btn-entrance btn-bp" data-page="analysis">
+                                    <i class="fas fa-chart-bar me-2"></i> 员工个人诊断报告
+                                </button>
+                                <button class="btn btn-entrance btn-bp" data-page="cohort">
+                                    <i class="fas fa-users me-2"></i> 群体分析
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第二行：评委入口 -->
+                <div class="row entrance-row">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div class="card entrance-card judge-entrance" style="width: 50%;">
+                            <div class="floating-shape shape-1"></div>
+                            <div class="floating-shape shape-2"></div>
+                            <i class="fas fa-gavel"></i>
+                            <h3>评委入口</h3>
+                            <div class="mt-3">
+                                <button class="btn btn-entrance btn-judge" data-page="scoring">
+                                    <i class="fas fa-star-half-alt me-2"></i> 打分参考
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>© 2023 智能述职Agent系统 | 让人才评估更科学、更高效</p>
+            </div>
+        </div>
+
+        <!-- PPT校对工具页 -->
+        <div id="verification" class="page-content">
+            <div class="page-header">
+                <button class="btn btn-primary home-button" data-page="dashboard">
+                    <i class="fas fa-arrow-left me-2"></i> 返回首页
+                </button>
+                <h2>PDF与评分表内容校对</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">文件上传</div>
+                        <div class="card-body">
+                            <div class="upload-area mb-3" id="docUploadArea">
+                                <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-secondary"></i>
+                                <h5>拖放PDF文件到这里</h5>
+                                <p class="text-muted">或</p>
+                                <button class="btn btn-primary">选择PDF文件</button>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">选择评分表模板</label>
+                                <select class="form-select" id="scoreTemplateSelect">
+                                    <option selected>技术序列P6评分表</option>
+                                    <option>产品序列P6评分表</option>
+                                    <option>管理序列M1评分表</option>
+                                    <option>市场序列P5评分表</option>
+                                    <option>上传自定义评分表...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="upload-area" id="scoreUploadArea">
+                                <i class="fas fa-file-excel fa-3x mb-3 text-success"></i>
+                                <h5>拖放评分表文件到这里</h5>
+                                <p class="text-muted">或</p>
+                                <button class="btn btn-success">选择评分表文件</button>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100 mt-3" id="verifyButton">开始校对</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">校对结果</div>
+                        <div class="card-body" id="verifyResults">
+                            <div class="text-center my-5 text-muted">
+                                <i class="fas fa-file-search fa-4x mb-3"></i>
+                                <h4>等待校对</h4>
+                                <p>请先上传PPT和评分表文件，然后点击"开始校对"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 打分参考页 -->
+        <div id="scoring" class="page-content">
+            <div class="page-header">
+                <button class="btn btn-primary home-button" data-page="dashboard">
+                    <i class="fas fa-arrow-left me-2"></i> 返回首页
+                </button>
+                <h2>能力认定打分参考</h2>
+            </div>
+            
+            <!-- 文件上传区域 - 简化版本 -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body py-3">
+                            <div class="row align-items-center">
+                                <!-- 述职原文上传 -->
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-outline-primary btn-sm me-2" id="reportUploadBtn">
+                                            <i class="fas fa-file-word me-1"></i>上传述职原文
+                                        </button>
+                                        <input type="file" id="reportFileInput" accept=".doc,.docx" style="display: none;">
+                                        <small class="text-success" id="reportFileInfo" style="display: none;">
+                                            <i class="fas fa-check-circle me-1"></i>
+                                            <span id="reportFileName"></span>
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- 评分标准上传 -->
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-outline-success btn-sm me-2" id="standardUploadBtn">
+                                            <i class="fas fa-file-excel me-1"></i>上传评分标准
+                                        </button>
+                                        <input type="file" id="standardFileInput" accept=".xls,.xlsx" style="display: none;">
+                                        <small class="text-success" id="standardFileInfo" style="display: none;">
+                                            <i class="fas fa-check-circle me-1"></i>
+                                            <span id="standardFileName"></span>
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- 生成按钮 -->
+                                <div class="col-md-4 text-center">
+                                    <button class="btn btn-primary" id="generateScoringBtn" disabled>生成能力评分</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分析结果和评分结果区域 -->
+            <div class="row">
+                <div class="col-md-5 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">能力分析与建议</div>
+                        <div class="card-body" id="abilityAnalysisContent">
+                            <div class="text-center py-3 text-muted" id="noAnalysisResults">
+                                <i class="fas fa-lightbulb fa-2x mb-2"></i>
+                                <p>生成能力评分后将显示分析建议</p>
+                            </div>
+                            
+                            <div id="analysisResultsContainer" style="display: none;">
+                                <h6><i class="fas fa-plus-circle me-2 text-success"></i>核心优势</h6>
+                                <div id="strengthsContent" class="small ps-3 mb-3">
+                                    <!-- 动态生成的优势内容 -->
+                                </div>
+                                
+                                <h6><i class="fas fa-minus-circle me-2 text-danger"></i>待发展领域</h6>
+                                <div id="improvementsContent" class="small ps-3 mb-3">
+                                    <!-- 动态生成的改进建议 -->
+                                </div>
+                                
+                                <!-- PDF导出按钮 -->
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-danger" id="exportPdfBtn">
+                                        <i class="fas fa-file-pdf me-1"></i>导出完整报告(PDF)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-7">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span>能力评分结果</span>
+                            <button class="btn btn-outline-success btn-sm float-end" id="exportExcelBtn" style="display: none;">
+                                <i class="fas fa-file-excel me-1"></i>导出Excel
+                            </button>
+                        </div>
+                        <div class="card-body" id="scoringSuggestionContent">
+                            <!-- 默认提示信息 -->
+                            <div class="text-center py-5" id="noScoringResults">
+                                <i class="fas fa-upload fa-4x text-muted mb-3"></i>
+                                <h5 class="text-muted">请上传述职原文和评分标准文件</h5>
+                                <p class="text-muted">上传完成后点击"生成能力评分"按钮开始分析</p>
+                            </div>
+                            
+                            <!-- 评分结果容器 -->
+                            <div id="scoringResultsContainer" style="display: none;">
+                                <!-- 动态生成的评分结果表格将显示在这里 -->
+                            </div>
+                            
+                            <!-- 导出按钮 -->
+                            <div class="text-center mt-3">
+                                <button class="btn btn-success" id="exportScoringBtn" style="display: none;">
+                                    <i class="fas fa-file-excel me-1"></i>导出评分结果
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 员工个人诊断报告页 -->
+        <div id="analysis" class="page-content">
+            <div class="page-header">
+                <button class="btn btn-primary home-button" data-page="dashboard">
+                    <i class="fas fa-arrow-left me-2"></i> 返回首页
+                </button>
+                <h2>员工个人诊断报告</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">分析设置</div>
+                        <div class="card-body">
+                            <div class="upload-area mb-3" id="docAnalysisUpload">
+                                <i class="fas fa-file-pdf fa-3x mb-3 text-danger"></i>
+                                <h5>拖放PDF文件到这里</h5>
+                                <p class="text-muted">或</p>
+                                <button class="btn btn-danger">选择PDF文件</button>
+                            </div>
+                            
+                            <div class="upload-area mb-3" id="audioAnalysisUpload">
+                                <i class="fas fa-microphone-alt fa-3x mb-3 text-info"></i>
+                                <h5>拖放述职录音文件到这里</h5>
+                                <p class="text-muted">支持 .mp3, .wav, .m4a 格式，建议文件小于200MB，时长小于2小时</p>
+                                <p class="text-muted">上传后将自动验证音频文件有效性</p>
+                                <p class="text-muted">或</p>
+                                <button class="btn btn-info">选择录音文件</button>
+                            </div>
+                            
+                            <div class="upload-area mb-3" id="judgeScoreUpload">
+                                <i class="fas fa-star-half-alt fa-3x mb-3 text-warning"></i>
+                                <h5>拖放评委打分结果到这里</h5>
+                                <p class="text-muted">支持从"能力认定打分参考"导出的PDF文件</p>
+                                <p class="text-muted">或</p>
+                                <button class="btn btn-warning">选择打分结果文件</button>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">解析维度</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="employeeAnalysis" checked>
+                                    <label class="form-check-label" for="employeeAnalysis">员工本人分析</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="growthSuggestions" checked>
+                                    <label class="form-check-label" for="growthSuggestions">未来成长建议</label>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" id="generateDiagnosisBtn">生成诊断报告</button>
+                            <button class="btn btn-outline-secondary w-100 mt-2" id="testDiagnosisBtn">生成测试报告</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">诊断报告 - 张三 (技术序列P6)</div>
+                        <div class="card-body" id="diagnosisReportContent">
+                            <div class="text-center my-5 text-muted">
+                                <i class="fas fa-file-medical-alt fa-4x mb-3"></i>
+                                <h4>等待生成报告</h4>
+                                <p>请上传必要的文件，然后点击"生成诊断报告"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 群体分析页 -->
+        <div id="cohort" class="page-content">
+            <div class="page-header">
+                <button class="btn btn-primary home-button" data-page="dashboard">
+                    <i class="fas fa-arrow-left me-2"></i> 返回首页
+                </button>
+                <h2>同一层级员工群体分析</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <div class="card-header">分析设置</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">选择群体</label>
+                                <select class="form-select" id="cohortSelect">
+                                    <option selected>所有P6级员工</option>
+                                    <option>技术部所有员工</option>
+                                    <option>产品序列P6员工</option>
+                                    <option>2023年晋升员工</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">能力模型</label>
+                                <select class="form-select" id="cohortModelSelect">
+                                    <option selected>技术序列P6能力模型</option>
+                                    <option>通用能力模型</option>
+                                    <option>领导力模型</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">时间范围</label>
+                                <select class="form-select" id="cohortTimeSelect">
+                                    <option>2023年Q3</option>
+                                    <option selected>2023年全年</option>
+                                    <option>近四个季度</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" id="generateCohortBtn">生成分析报告</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="card mb-4">
+                        <div class="card-header">能力分布 - 所有P6级员工</div>
+                        <div class="card-body">
+                            <canvas id="cohortChart" height="100"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="cohortAnalysisContent">
+                        <div class="text-center my-5 text-muted w-100">
+                            <i class="fas fa-users-cog fa-4x mb-3"></i>
+                            <h4>等待生成群体分析</h4>
+                            <p>请选择分析参数，然后点击"生成分析报告"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- API配置模态弹窗 -->
+    <div class="modal fade" id="apiConfigModal" tabindex="-1" aria-labelledby="apiConfigModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="apiConfigModalLabel">
+                        <i class="fas fa-key me-2"></i>API配置
+                    </h5>
+                    <span class="badge ms-auto me-3" id="apiStatusBadge">未配置</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="apiConfigForm">
+                        <div class="mb-3">
+                            <label for="apiKeyInput" class="form-label">DashScope API密钥</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="apiKeyInput" 
+                                       placeholder="请输入您的DashScope API密钥">
+                                <button class="btn btn-outline-secondary" type="button" id="toggleApiKey">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                请输入有效的DashScope API密钥以使用AI功能。
+                                <a href="https://dashscope.console.aliyun.com/" target="_blank">获取API密钥</a>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-primary" id="validateApiKey">
+                                <i class="fas fa-check me-2"></i>验证密钥
+                            </button>
+                            <button type="button" class="btn btn-success" id="saveApiKey" style="display: none;">
+                                <i class="fas fa-save me-2"></i>保存配置
+                            </button>
+                        </div>
+                    </div>
+                    <div id="apiConfigSuccess" style="display: none;">
+                        <div class="alert alert-success mb-0">
+                            <i class="fas fa-check-circle me-2"></i>
+                            API密钥已配置并验证成功！系统已准备就绪。
+                            <button type="button" class="btn btn-sm btn-outline-success ms-2" id="reconfigureApi">
+                                重新配置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 自定义JS -->
+    <script src="{{ url_for('static', filename='js/report.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
