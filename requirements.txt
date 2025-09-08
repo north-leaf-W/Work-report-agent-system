@@ -1,0 +1,13 @@
+Flask
+python-pptx
+openpyxl
+requests
+PyPDF2
+reportlab
+python-dotenv
+dashscope
+pandas
+python-docx
+Werkzeug
+oss2
+uuid
